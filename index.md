@@ -18,4 +18,4 @@ String result = Try.ofSupplier(decoratedSupplier)
   .recover(throwable -> "Hello from Recovery").get();
 ```
 
-Resilience4jでは、全てを使う必要はありません。必要なものでだけを選ぶことができます。
+Resilience4jでは、全てを使う必要はありません。必要なものだけを選ぶことができます。

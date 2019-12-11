@@ -18,7 +18,7 @@ This is **unofficial** Japanese translation of [Resilience4j documentations](htt
 
 併せて、お手数ですが下記いずれかの方法でご報告ください。
 
-- [GitHbのIssue](https://github.com/resilience4j-docs-ja/resilience4j-docs-ja/issues)
+- [GitHubのIssue](https://github.com/resilience4j-docs-ja/resilience4j-docs-ja/issues)
 - [GitHubのPull Request](https://github.com/resilience4j-docs-ja/resilience4j-docs-ja/pulls)
 - 翻訳メンバーになる（下記の翻訳メンバーまでご連絡ください）
 

@@ -49,3 +49,6 @@ Mavenでの利用
     </repository>
 </repositories>
 ```
+
+# リンク
+- [トップページ](../index.md)

@@ -2,6 +2,8 @@ RateLimiter
 ===========
 resilience4j-ratelimiterの利用
 
+[トップページに戻る](../index.md)
+
 # イントロダクション
 流量制御はAPIのスケールおよびサービスの高い可用性、信頼性の確立に必須の技術です。それだけではなく、どうやって検知された制限超過をハンドリングするか、どのようなリクエストを制限するかなど、とても多くの異なる選択肢が付属しています。単に制限を超えたリクエストを拒否することもできますし、後で実行できるようにキューを作ることも、これら2つのアプローチを何らかの方法で組み合わせることもできます。
 
@@ -110,3 +112,7 @@ ReactorAdapter.toFlux(rateLimiter.getEventPublisher())
     .filter(event -> event.getEventType() == FAILED_ACQUIRE)
     .subscribe(event -> logger.info(...))
 ```
+
+# リンク
+- [トップページ](../index.md)
+- [RateLimiterのサンプルコード](ratelimiter-examples.md)

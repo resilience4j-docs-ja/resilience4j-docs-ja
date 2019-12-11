@@ -2,6 +2,8 @@
 ============
 resilience4j-retryのサンプルコード
 
+[トップページに戻る](../index.md)
+
 # RetryRegistryの作成
 カスタムのRetryConfigでRetryRegistryを作成します。
 
@@ -18,3 +20,7 @@ RetryConfig config = RetryConfig.custom()
 // カスタムのグローバル設定でRetryRegistryを作成する
 RetryRegistry registry = RetryRegistry.of(config);
 ```
+
+# リンク
+- [トップページ](../index.md)
+- [Retry](retry.md)

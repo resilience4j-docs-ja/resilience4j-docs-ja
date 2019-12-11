@@ -2,6 +2,8 @@
 =======
 resilience4j-retryの利用
 
+[トップページに戻る](../index.md)
+
 # RetryRegistryの作成
 CircuitBreakerモジュールと同様に、このモジュールはインメモリーの `RetryRegistry` を提供します。これを利用して、Retryインスタンスの管理（作成および取得）を行うことができます。
 
@@ -121,3 +123,7 @@ RetryConfig retryConfig = RetryConfig.custom()
   .intervalFunction(intervalWithExponentialBackoff)
   .build();
 ```
+
+# リンク
+- [トップページ](../index.md)
+- [Retryのサンプルコード](retry-examples.md)

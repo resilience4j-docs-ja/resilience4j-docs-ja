@@ -27,3 +27,6 @@ repositories {
    maven { url 'http://oss.jfrog.org/artifactory/oss-snapshot-local/' }
 }
 ```
+
+# リンク
+- [トップページ](../index.md)

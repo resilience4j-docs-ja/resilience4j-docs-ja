@@ -2,6 +2,8 @@
 ============
 resilience4j-bulkheadのサンプルコード
 
+[トップページに戻る](../index.md)
+
 # BulkheadRegistryの作成
 カスタムのBulkheadConfigを利用したBulkheadRegistryの作成
 
@@ -39,3 +41,7 @@ Supplier<String> decoratedSupplier = Bulkhead
 String result = Try.ofSupplier(decoratedSupplier)
     .recover(throwable -> "Hello from Recovery").get(); 
 ```
+
+# リンク
+- [トップページ](../index.md)
+- [Bulkhead](bulkhead.md)

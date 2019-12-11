@@ -2,6 +2,8 @@
 ================
 resilience4j-circuitbreakerの利用
 
+[トップページに戻る](../index.md)
+
 # イントロダクション
 サーキットブレイカーは3つの通常状態（CLOSED、OPEN、HALF_OPEN）と2つの特別な状態（DISABLED、FORCED_OPEN）による有限状態マシンとして実装されています。
 
@@ -213,3 +215,7 @@ List<CircuitBreakerEvent> bufferedEvents = ringBuffer.getBufferedEvents()
 ```
 
 EventPublisherをReactive Streamに変換するために、RxJavaまたはRxJava2アダプターを利用できます。
+
+# リンク
+- [トップページ](../index.md)
+- [CircuitBreakerのサンプルコード](circuitbreaker-examples.md)

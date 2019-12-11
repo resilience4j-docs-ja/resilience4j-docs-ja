@@ -2,6 +2,8 @@
 ============
 resilience4j-circuitbreakerのサンプルコード
 
+[トップページに戻る](../index.md)
+
 # CircuitBreakerRegistryの作成
 カスタムのCircuitBreakerConfigを利用したCircuitBreakerRegistryの作成
 
@@ -122,3 +124,7 @@ circuitBreaker.transitionToForcedOpenState();
 // circuitBreaker.onSuccess(...) は状態変更を引き起こしません
 circuitBreaker.reset(); // CLOSEDに遷移して通常の振る舞いを再び可能にします。メトリクスは失われます
 ```
+
+# リンク
+- [トップページ](../index.md)
+- [CircuitBreaker](circuitbreaker.md)

@@ -2,6 +2,8 @@
 ============
 resilience4j-ratelimiterのサンプルコード
 
+[トップページに戻る](../index.md)
+
 # RateLimiterRegistryの作成
 カスタムのRateLimiterConfigを利用したRateLimiterRegistryの作成
 
@@ -16,3 +18,7 @@ RateLimiterConfig config = RateLimiterConfig.custom()
 // カスタムのグローバル設定でRateLimiterRegistryを作成する
 RateLimiterRegistry registry = RateLimiterRegistry.of(config);
 ```
+
+# リンク
+- [トップページ](../index.md)
+- [RateLimiter](ratelimiter.md)

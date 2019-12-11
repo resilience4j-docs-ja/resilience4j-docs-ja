@@ -97,3 +97,6 @@ Resilience4jでは、全てを使う必要はありません。必要なもの�
 - [Camel Circuit Breaker](https://camel.apache.org/manual/latest/resilience4j-eip.html)
 - [Spring Cloud Circuit Breaker](https://spring.io/projects/spring-cloud-circuitbreaker)
 - [http4k resilience module](https://www.http4k.org/guide/modules/resilience/)
+
+# リンク
+- [トップページ](../index.md)

@@ -2,6 +2,8 @@
 ==========
 resilience4j-bulkheadの利用
 
+[トップページに戻る](../index.md)
+
 # イントロダクション
 Resilience4jは、同時実行数を制御するために使われるバルクヘッドパターンの実装を2つ提供します。
 
@@ -139,3 +141,7 @@ bulkhead.getEventPublisher()
     .onCallRejected(event -> logger.info(...))
     .onCallFinished(event -> logger.info(...));
 ```
+
+# リンク
+- [トップページ](../index.md)
+- [Bulkheadのサンプルコード](bulkhead-examples.md)

@@ -49,6 +49,7 @@ Bulkhead bulkheadWithCustomConfig = registry.bulkhead("name2", custom);
 
 # ThreadPoolBulkheadの作成および設定
 カスタムのグローバルThreadPoolBulkheadConfigを作ることができます。カスタムのグローバルThreadPoolBulkheadConfigを作成するには、ThreadPoolBulkheadConfigビルダーを利用できます。ビルダーでは下記のプロパティを設定できます。
+
 | プロパティ | デフォルト値 | 説明 |
 |-----|------------|-----|
 | maxThreadPoolSize | Runtime.getRuntime().availableProcessors() | 最大スレッドプールサイズを設定します。 |

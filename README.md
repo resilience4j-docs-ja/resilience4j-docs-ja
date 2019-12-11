@@ -1,5 +1,5 @@
 # resilience4j-docs-ja
-有志による[Resilience4j公式ドキュメント](https://resilience4j.readme.io/)の **非公式** な日本語訳です。
+Resilience4j開発チームから許可を得て翻訳した、有志による[Resilience4j公式ドキュメント](https://resilience4j.readme.io/)の **非公式** な日本語訳です。
 
 This is **unofficial** Japanese translation of [Resilience4j documentations](https://resilience4j.readme.io/).
 
@@ -24,3 +24,6 @@ This is **unofficial** Japanese translation of [Resilience4j documentations](htt
 
 # 翻訳メンバー
 - Masatoshi Tada ([Twitter](https://twitter.com/suke_masa), [GitHub](https://github.com/MasatoshiTada))
+
+# このリポジトリのライセンス
+[Apache License 2.0](LICENSE.txt)

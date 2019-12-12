@@ -105,7 +105,7 @@ rateLimiter.getEventPublisher()
     .onFailure(event -> logger.info(...));
 ```
 
-EventPublisherをReactive Streamに変換するために、RxJavaまたはRxJava2アダプターを利用できます。
+EventPublisherをReactive Streamに変換するために、RxJava、RxJava2、Project Reactorアダプターを利用できます。
 
 ```java
 ReactorAdapter.toFlux(rateLimiter.getEventPublisher())

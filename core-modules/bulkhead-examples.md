@@ -24,11 +24,9 @@ RateLimiterRegistry rateLimiterRegistry = RateLimiterRegistry.of(config);
 # Bulkheadの作成
 グローバルなデフォルト設定を持ったBulkheadRegistryからのBulkhead取得
 
-> FIXME 原文でメソッド名の間違い。修正依頼中
-
 ```java
 Bulkhead bulkhead = bulkheadRegistry 
-  .circuitBreaker("name");
+  .bulkhead("name");
 ```
 
 # 関数型インタフェースのデコレート

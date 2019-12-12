@@ -7,18 +7,16 @@ resilience4j-bulkheadのサンプルコード
 # BulkheadRegistryの作成
 カスタムのBulkheadConfigを利用したBulkheadRegistryの作成
 
-> FIXME RateLimiterのコードなのでおそらく原文の間違い。修正依頼中
-
 ```java
-// Create a custom configuration for a RateLimiter
-RateLimiterConfig config = RateLimiterConfig.custom()
-    .limitRefreshPeriod(Duration.ofMillis(1))
-    .limitForPeriod(10)
-    .timeoutDuration(Duration.ofMillis(25))
-    .build();
+// バルクヘッドのカスタム設定を作成する
+BulkheadConfig config = BulkheadConfig.custom()
+        .maxConcurrentCalls(10)
+        .maxWaitDuration(Duration.ofMillis(1))
+        .build();
 
-// Create a RateLimiterRegistry with a custom global configuration
-RateLimiterRegistry rateLimiterRegistry = RateLimiterRegistry.of(config);
+// カスタムのグローバル設定でBulkheadRegistryを作成する
+BulkheadRegistry bulkheadRegistry =
+        BulkheadRegistry.of(config);
 ```
 
 # Bulkheadの作成

@@ -1,26 +1,12 @@
 イントロダクション
 ====================================================
-Resilience4jは、Netflix Hystrixにインスパイアされた軽量なフォールトトレランスライブラリですが、関数型プログラミング向けにデザインされています。このライブラリはVavrしか使っておらず、その他の外部依存ライブラリが無いため、軽量です。それに対してNetflix Hystrixは、コンパイル依存性にArchaiusがあります。これは、GuavaやApache Commons Configurationのような多くの外部依存ライブラリを持っています。
+Resilience4jは、Netflix Hystrixにインスパイアされた軽量かつ扱いが簡単なフォールトトレランスライブラリですが、関数型プログラミング向けにデザインされています。このライブラリはVavrしか使っていません。これはその他の外部ライブラリへの依存が無いため、軽量です。それに対してNetflix Hystrixは、コンパイル依存性にArchaiusがあります。これは、GuavaやApache Commons Configurationのような多くの外部依存ライブラリを持っています。
 
 Resilience4jは関数型インタフェース、ラムダ式、メソッド参照をサーキットブレイカー、流量制限、リトライ、バルクヘッドで拡張するための高階関数（デコレーター）を提供します。関数型インタフェース、ラムダ式、メソッド参照には、1つ以上のデコレーターをスタックすることができます。これにより、必要なデコレーターを使うか、何も使わないかを選ぶことができます。
 
-<!-- FIXME 「スタックする」をうまい日本語にする -->
-
-```java
-Supplier<String> supplier = () -> backendService.doSomething(param1, param2);
-
-Supplier<String> decoratedSupplier = Decorators.ofSupplier(supplier)
-  .withRetry(Retry.ofDefaults("name"))
-  .withCircuitBreaker(CircuitBreaker.ofDefaults("name"))
-  .withBulkhead(Bulkhead.ofDefaults("name"));  
-
-String result = Try.ofSupplier(decoratedSupplier)
-  .recover(throwable -> "Hello from Recovery").get();
-```
-
 Resilience4jでは、全てを使う必要はありません。必要なものだけを選ぶことができます。
 
-# 概要
+# 覆面試写会（Sneak Preview）
 下記は、サーキットブレイカーおよびリトライ（例外発生時に最大3回まで）でラムダ式をデコレートする例です。リトライの待ち時間やバックオフアルゴリズムは設定することができます。この例では全リトライが失敗した際、Vavrの `Try` モナドを使って例外から回復し、フォールバックとしてもう1つのラムダ式を実行しています。
 
 ```java
@@ -56,12 +42,34 @@ String result = Try.ofSupplier(decoratedSupplier)
 // 単に実行してサーキットブレイカーで呼び出しを保護します
 String result = circuitBreaker
   .executeSupplier(backendService::doSomething);
+
+// ThreadPoolBulkhead内でSupplierを非同期に実行することもできます
+ ThreadPoolBulkhead threadPoolBulkhead = ThreadPoolBulkhead
+  .ofDefaults("backendService");
+
+// The Scheduler is needed to schedule a timeout 
+// on a non-blocking CompletableFuture
+// ノンブロッキングなCompletableFutureでタイムアウトをスケジュールするには、スケジューラーが必要です
+ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(3);
+TimeLimiter timeLimiter = TimeLimiter.of(Duration.ofSeconds(1));
+
+CompletableFuture<String> future = Decorators.ofSupplier(supplier)
+    .withThreadPoolBulkhead(threadPoolBulkhead)
+    .withTimeLimiter(timeLimiter, scheduledExecutorService)
+    .withCircuitBreaker(circuitBreaker)
+    .withFallback(asList(TimeoutException.class, 
+                         CallNotPermittedException.class, 
+                         BulkheadFullException.class),  
+                  throwable -> "Hello from Recovery")
+    .get().toCompletableFuture();
 ```
 
 # モジュール化
 Resilience4jでは、全てを使う必要はありません。必要なものだけを選ぶことができます。
 
-## 全部入り
+Resilience4jは、コアモジュールとアドオンモジュールを提供しています:
+
+## 全てのコアモジュールとデコレータークラス
 - resilience4j-all
 
 ## コアモジュール

@@ -48,7 +48,7 @@ List<Book> books = Cache.decorateSupplier(cache, library::getBooks)
     .apply(BOOKS_CACHE_KEY);
 ```
 
-> 並行性の問題があるため、JCacheの参照実装を本番で使うことは非推奨です。Ehcache、Caffeine、Redisson、Hazelcast、Igniteなど他の実装を使ってください。
+> 並行性の問題があるため、JCacheの参照実装を本番で使うことは非推奨です。Ehcache、Caffeine、Redisson、Hazelcast、Igniteもしくは[他の実装](https://jcp.org/aboutJava/communityprocess/implementations/jsr107/index.html)を使ってください。
 
 # リンク
 - [トップページ](../index.md)

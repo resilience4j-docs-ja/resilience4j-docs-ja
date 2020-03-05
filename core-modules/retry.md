@@ -12,7 +12,7 @@ RetryRegistry retryRegistry = RetryRegistry.ofDefaults();
 ```
 
 # Retryの作成および設定
-カスタムのグローバルRetryConfigを作ることができます。カスタムのグローバルRetryConfigを作成するには、RateLimiterConfigビルダーを利用できます。ビルダーでは下記のプロパティを設定できます:
+カスタムのグローバルRetryConfigを作ることができます。カスタムのグローバルRetryConfigを作成するには、RetryConfigビルダーを利用できます。ビルダーでは下記のプロパティを設定できます:
 
 - 最大リトライ回数
 - 試行間の待ち時間

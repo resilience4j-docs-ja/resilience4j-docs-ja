@@ -24,7 +24,7 @@ RetryRegistry retryRegistry = RetryRegistry.ofDefaults();
 | プロパティ | デフォルト値 | 説明 |
 |-----|------------|-----|
 | maxAttempts | 3 | 最大リトライ回数 |
-| waitDuration | 500 [ms] | 試行間の待ち時間 |
+| waitDuration | 500 [ms] | 試行間の固定の待ち時間 |
 | intervalFunction | numOfAttempts -> waitDuration | 失敗後の待ち時間間隔を変更する関数。デフォルトでは一定のwaitDuration |
 | retryOnResultPredicate | result -> false | リトライされるべき結果か評価するPredicateを設定する。Predicateは、結果がリトライされるべき場合にtrue、そうでなければfalseを返す |
 | retryOnExceptionPredicate | throwable -> true | リトライされるべき例外か評価するPredicateを設定する。Predicateは、例外がリトライされるべき場合にtrue、そうでなければfalseを返す |

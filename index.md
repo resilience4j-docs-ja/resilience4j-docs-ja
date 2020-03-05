@@ -34,6 +34,7 @@ Resilience4jでは、全てを使う必要はありません。必要なもの�
     - [Examples](core-modules/ratelimiter-examples.md)
 - [Retry](core-modules/retry.md)
     - [Examples](core-modules/retry-examples.md)
+- [TimeLimiter](core-modules/timelimiter.md)
 - [Cache](core-modules/cache.md)
 
 ## その他の項目

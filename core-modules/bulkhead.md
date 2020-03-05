@@ -10,7 +10,7 @@ Resilience4jは、同時実行数を制御するために使われるバルク�
 - セマフォを利用する `SemaphoreBulkhead`
 - 境界づけられたキューと固定スレッドプールを利用する `FixedThreadPoolBulkhead`
 
-`SemaphoreBulkhead` は様々なスレッドとIOモデルで動作します。Hystrixと違うセマフォベースで、"シャドウ"スレッドプールの選択肢を提供しません。スレッドプールのサイズがバルクヘッドの設定と一貫性があるようにすることは、クライアントの責任です。
+`SemaphoreBulkhead` は様々なスレッドとI/Oモデルで動作します。Hystrixと違うセマフォベースで、"シャドウ"スレッドプールの選択肢を提供しません。スレッドプールのサイズがバルクヘッドの設定と一貫性があるようにすることは、クライアントの責任です。
 
 # BulkheadRegistryの作成
 CircuitBreakerモジュールと同様に、このモジュールはインメモリーの `BulkheadRegistry` と `ThreadPoolBulkheadRegistry` を提供します。これを利用して、Bulkheadインスタンスの管理（作成および取得）を行うことができます。
@@ -27,7 +27,7 @@ ThreadPoolBulkheadRegistry threadPoolBulkheadRegistry =
 
 | プロパティ | デフォルト値 | 説明 |
 |-----|------------|-----|
-| maxConcurrentCalls | 25 | バルクヘッドにより許可される最大並列実行数 |
+| maxConcurrentCalls | 25 | バルクヘッドにより許可される最大並行実行数 |
 | maxWaitDuration | 0 | 飽和したバルクヘッドに入ろうとした時のスレッドの最大待ち時間 |
 
 ```java
@@ -57,7 +57,7 @@ Bulkhead bulkheadWithCustomConfig = registry.bulkhead("name2", custom);
 | maxThreadPoolSize | Runtime.getRuntime().availableProcessors() | 最大スレッドプールサイズを設定します。 |
 | coreThreadPoolSize | Runtime.getRuntime().availableProcessors() - 1 | コアスレッドプールサイズを設定します。 |
 | queueCapacity | 100 | キューの容量を設定します。 |
-| keepAliveDuration | 20 [ms] | スレッド数がコアを超えた場合、これは余分なアイドルスレッドが終了する前に新しいタスクを待機する最大時間です。 |
+| keepAliveDuration | 20 [ms] | スレッド数がコアを超えた場合、これは余分な待機スレッドが終了する前に新しいタスクを待機する最大時間です。 |
 
 ```java
 ThreadPoolBulkheadConfig config = ThreadPoolBulkheadConfig.custom()

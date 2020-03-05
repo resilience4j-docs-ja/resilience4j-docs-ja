@@ -51,7 +51,7 @@ String result = circuitBreaker
 ```
 
 # 例外からのリカバリー
-CircuitBreakerが例外を失敗と記録しそれからリカバリーしたい場合は、 `Try.recover()` メソッドでチェインできます。recoveryメソッドは `Try.of()` が `Failure<Throwable>` モナドを返した時のみ実行されます。
+CircuitBreakerが例外を失敗と記録しそれからリカバリーしたい場合は、 `Try.recover()` でメソッドをチェインできます。recoveryメソッドは `Try.of()` が `Failure<Throwable>` モナドを返した時のみ実行されます。
 
 ```java
 // 与えられた設定
@@ -106,7 +106,7 @@ HttpResponse httpResponse = circuitBreaker
 ```
 
 # CircuitBreakerのリセット
-サーキットブレイカーは元の状態へのリセット、全メトリクスの消去、実質的にRing Bit Bufferをリセットすることをサポートしています。
+サーキットブレイカーは元の状態へのリセット、全メトリクスの消去、実質的にスライディングウィンドウをリセットすることをサポートしています。
 
 ```java
 CircuitBreaker circuitBreaker = CircuitBreaker.ofDefaults("testName");

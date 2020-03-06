@@ -37,5 +37,10 @@ Resilience4jでは、全てを使う必要はありません。必要なもの�
 - [TimeLimiter](core-modules/timelimiter.md)
 - [Cache](core-modules/cache.md)
 
+## アドオンモジュール
+- [Spring Boot 2](addon-modules/spring-boot2.md)
+- [Spring Cloud](addon-modules/spring-cloud.md)
+- [Micrometer](addon-modules/micrometer.md)
+
 ## その他の項目
-その他の項目（Spring Bootでの使い方など）は、ほぼコードのみのため翻訳の対象外とします。[公式ドキュメントの目次](https://resilience4j.readme.io/docs)を参照してください。
+その他の項目（Kotlinでの使い方など）は、ほぼコードのみのため翻訳の対象外とします。[公式ドキュメントの目次](https://resilience4j.readme.io/docs)を参照してください。もちろん、プルリクエストも歓迎します！

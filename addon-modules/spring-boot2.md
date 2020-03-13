@@ -2,6 +2,8 @@ Getting Started
 ===============
 resilience4j-spring-boot2の利用
 
+[トップページに戻る](../index.md)
+
 # 準備
 Resilience4jのSpring Boot Starterをコンパイル依存性に追加してください。
 
@@ -369,3 +371,6 @@ CLOSEDなCircuitBreakerがUPとマッピングされ、OPEN状態はDOWN、HALF-
     ]
 }
 ```
+
+# リンク
+- [トップページ](../index.md)

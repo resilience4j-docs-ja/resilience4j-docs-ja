@@ -2,6 +2,8 @@ Getting Started
 ===============
 resilience4j-spring-cloud2の利用
 
+[トップページに戻る](../index.md)
+
 # 準備
 Resilience4jのSpring Cloud 2 Starterをコンパイル依存性に追加してください。Spring Cloud 2 Starterにより、Spring Cloud Configを利用した設定の一括管理や実行中の設定リフレッシュが可能になります。
 
@@ -24,3 +26,7 @@ dependencies {
 
 # デモ
 Spring Cloud 2における準備および利用は[demo](https://github.com/resilience4j/resilience4j-spring-cloud2-demo)で紹介されています。
+
+# リンク
+- [トップページ](../index.md)
+

@@ -2,6 +2,8 @@ Micrometer
 ==========
 resilience4j-micrometerの利用
 
+[トップページに戻る](../index.md)
+
 Resilience4jは、InfluxDBやPrometheusのような最も人気の監視システムをサポートしているMicrometerのためのモジュールを提供します。
 
 このモジュールは、実行時に `micrometer-core` が既に提供されていることを期待します。Spring Reactorは透過的依存性ではありません。
@@ -199,3 +201,7 @@ resilience4j_ratelimiter_waiting_threads{name="backendA",} 0.0
 # TYPE resilience4j_ratelimiter_available_permissions gauge
 resilience4j_ratelimiter_available_permissions{name="backendA",} 50.0
 ```
+
+# リンク
+- [トップページ](../index.md)
+

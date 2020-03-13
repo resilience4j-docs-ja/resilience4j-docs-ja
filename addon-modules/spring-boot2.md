@@ -13,9 +13,9 @@ repositories {
 }
 
 dependencies {
-  compile "io.github.resilience4j:resilience4j-spring-boot2:${resilience4jVersion}"
-  compile('org.springframework.boot:spring-boot-starter-actuator')
-  compile('org.springframework.boot:spring-boot-starter-aop')
+    compile "io.github.resilience4j:resilience4j-spring-boot2:${resilience4jVersion}"
+    compile('org.springframework.boot:spring-boot-starter-actuator')
+    compile('org.springframework.boot:spring-boot-starter-aop')
 }
 ```
 
@@ -74,11 +74,11 @@ resilience4j.bulkhead:
             maxConcurrentCalls: 20
             
 resilience4j.thread-pool-bulkhead:
-  instances:
-    backendC:
-      maxThreadPoolSize: 1
-      coreThreadPoolSize: 1
-      queueCapacity: 1
+    instances:
+        backendC:
+            maxThreadPoolSize: 1
+            coreThreadPoolSize: 1
+            queueCapacity: 1
         
 resilience4j.ratelimiter:
     instances:

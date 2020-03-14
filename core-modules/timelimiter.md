@@ -15,7 +15,7 @@ TimeLimiterRegistry timeLimiterRegistry = TimeLimiterRegistry.ofDefaults();
 カスタムのグローバルTimeLimiterConfigを作ることができます。カスタムのグローバルTimeLimiterConfigを作成するには、TimeLimiterConfigビルダーを利用できます。ビルダーでは下記のプロパティを設定できます:
 
 - タイムアウト時間
-- 
+- 実行中のFutureがキャンセルされるべきか否か
 
 ```java
 TimeLimiterConfig config = TimeLimiterConfig.custom()

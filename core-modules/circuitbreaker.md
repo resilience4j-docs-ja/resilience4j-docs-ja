@@ -57,7 +57,7 @@ resilience4j-circuitbreakerの利用
 ![3スレッドの例](../images/3_threads.png "3スレッドの例")
 
 # CircuitBreakerRegistryの作成
-Resilience4jにはスレッドの安全性と原子性保証を提供する、ConcurrentHashMapに基づくインメモリ `CircuitBreakerRegistry` が付属しています。CircuitBreakerインスタンスを管理（生成と取得）するために `CircuitBreakerRegistry` を利用できます。全CircuitBreakerインスタンスのグローバルなデフォルトの `CircutBreakerConfig` を持ったCircuitBreakerRegistryは、下記のように作成します。
+Resilience4jにはスレッド安全性と原子性保証を提供する、ConcurrentHashMapに基づくインメモリ `CircuitBreakerRegistry` が付属しています。CircuitBreakerインスタンスを管理（生成と取得）するために `CircuitBreakerRegistry` を利用できます。全CircuitBreakerインスタンスのグローバルなデフォルトの `CircutBreakerConfig` を持ったCircuitBreakerRegistryは、下記のように作成します。
 
 ```java
 CircuitBreakerRegistry circuitBreakerRegistry = 
@@ -65,14 +65,14 @@ CircuitBreakerRegistry circuitBreakerRegistry =
 ```
 
 # CircuitBreakerの作成と設定
-カスタムのグローバル `CircuitBreakerConfig` を提供できます。カスタムのグローバル `CircuitBreakerConfig` を作成するには、CircuitBreakerConfigビルダーを使います。ビルダーで下記のプロパティを設定できます。
+カスタムのグローバル `CircuitBreakerConfig` を作成できます。カスタムのグローバル `CircuitBreakerConfig` を作成するには、CircuitBreakerConfigビルダーを使います。ビルダーで下記のプロパティを設定できます。
 
 | プロパティ | デフォルト値 | 説明 |
 |----------|------------|-----|
 | failureRateThreshold | 50 | 失敗率の閾値をパーセントで設定します。失敗率が閾値以上になった時、CircuitBreakerはOPENに遷移し短絡回路呼び出しを開始します。 |
-| slowCallRateThreshold | 100 | 閾値をパーセントで設定します。呼び出し時間が `slowCallDurationThreshold` を超えた時、サーキットブレイカーは呼び出しが遅いと見なします。呼出遅延のパーセンテージが閾値以上になった時、CircuitBreakerはOPENに遷移し短絡回路呼び出しを開始します。 |
-| slowCallDurationThreshold | 60000 [ms] | 呼出が遅く呼出遅延率を増やすと見なされる時間を設定します。 |
-| permittedNumberOfCallsInHalfOpenState | 10 | CircuitBreakerがHALF_OPENの時に許可される呼び出し数を設定します。 |
+| slowCallRateThreshold | 100 | 閾値をパーセントで設定します。呼び出し時間が `slowCallDurationThreshold` を超えた時、サーキットブレイカーは呼び出しが遅延していると見なします。呼出遅延のパーセンテージが閾値以上になった時、CircuitBreakerはOPENに遷移し短絡回路呼び出しを開始します。 |
+| slowCallDurationThreshold | 60000 [ms] | 呼出が遅延していて呼出遅延率を増やすと見なされる時間を設定します。 |
+| permittedNumberOfCallsInHalfOpenState | 10 | CircuitBreakerがHALF_OPENの時に許可される呼び出し回数を設定します。 |
 | slidingWindowType | COUNT_BASED | CircuitBreakerがCLOSEDの時に呼び出し結果を記録する際に使われるスライディングウィンドウの種類を設定します。スライディングウィンドウはCOUNT_BASEDまたはTIME_BASEDです。スライディングウィンドウがCOUNT_BASEDの場合、直近の呼び出しが `slidingWindowSize` の数だけ記録および集約されます。スライディングウィンドウがTIME_BASEDの場合、直近の `slidingWindowSize` 秒間の呼び出しが記録および集約されます。 |
 | slidingWindowSize | 100 | CircuitBreakerがCLOSEDの時に呼び出し結果を記録する際に使われるスライディングウィンドウのサイズを設定します。 |
 | minimumNumberOfCalls | 10 | CircuitBreakerがエラー率を計算できるようになる前に必要となる最小呼び出し回数（各スライディングウィンドウごと）を設定します。例えば、minimumNumberOfCallsが10の場合、エラー率が計算できるようになるまでに少なくとも10個の呼び出しが記録されてなければなりません。もし9個の呼び出ししか記録されていない場合、全呼び出しが失敗してもCircuitBreakerはOPENに遷移しません。 |

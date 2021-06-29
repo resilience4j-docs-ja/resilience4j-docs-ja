@@ -19,6 +19,15 @@ RateLimiterConfig config = RateLimiterConfig.custom()
 RateLimiterRegistry registry = RateLimiterRegistry.of(config);
 ```
 
+# RegistryStoreの上書き
+インメモリのRegistryStoreを独自実装で上書きすることができます。例えば、ある時間が経過した後に利用されていないインスタンスを削除するようなキャッシュを使いたい場合です。
+
+```java
+RateLimiterRegistry rateLimiterRegistry = RateLimiterRegistry.custom()
+  .withRegistryStore(new CacheRateLimiterRegistryStore())
+  .build();
+```
+
 # リンク
 - [トップページ](../index.md)
 - [RateLimiter](ratelimiter.md)

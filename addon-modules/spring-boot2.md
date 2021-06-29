@@ -7,7 +7,7 @@ resilience4j-spring-boot2の利用
 # 準備
 Resilience4jのSpring Boot Starterをコンパイル依存性に追加してください。
 
-このモジュールは、実行時に `org.springframework.boot:spring-boot-starter-actuator` および `org.springframework.boot:spring-boot-starter-aop` が既に提供されていることを期待します。
+このモジュールは、実行時に `org.springframework.boot:spring-boot-starter-actuator` および `org.springframework.boot:spring-boot-starter-aop` が既に提供されていることを期待します。WebFluxをSpring Boot 2で使っている場合は `io.github.resilience4j:resilience4j-reactor` も必要です。
 
 ```groovy
 repositories {
@@ -200,7 +200,25 @@ Resilience4jアスペクトの順番は下記のとおりです:
 
 Retry ( CircuitBreaker ( RateLimiter ( TimeLimiter ( Bulkhead ( Function ) ) ) ) )
 
-違う順番が必要な場合は、Springアノテーションスタイルの代わりに関数チェーンスタイルを使ってください。
+違う順番が必要な場合は、Springアノテーションスタイルの代わりに関数チェーンスタイルを使うか、下記のプロパティでアスペクトの順番を明示的に設定してください。
+
+```text
+- resilience4j.retry.retryAspectOrder
+- resilience4j.circuitbreaker.circuitBreakerAspectOrder
+- resilience4j.ratelimiter.rateLimiterAspectOrder
+- resilience4j.timelimiter.timeLimiterAspectOrder
+- resilience4j.bulkhead.bulkheadAspectOrder
+```
+
+例えば - CircuitBreakerがRetryの後に実行されるようにするには、 `retryAspectOrder` プロパティを `circuitBreakerAspectOrder` の値より大きくする必要があります（大きい値＝高い優先度）。
+
+```yaml
+resilience4j:
+  circuitbreaker:
+    circuitBreakerAspectOrder: 1
+  retry:
+    retryAspectOrder: 2
+```
 
 # Metricsエンドポイント
 CircuitBreaker・Retry・RateLimiter・Bulkhead・TimeLimiterメトリクスはメトリクスエンドポイントから自動的に高階されます。利用可能なメトリクスの名前を取得したい場合は、 `/actuator/metrics` にGETリクエストしてください。詳細は[Actuator Metrics documentation](https://docs.spring.io/spring-boot/docs/current/actuator-api/html/#metrics)を参照してください。
@@ -216,7 +234,7 @@ CircuitBreaker・Retry・RateLimiter・Bulkhead・TimeLimiterメトリクスは�
 }
 ```
 
-メトリクスのを取得するには、 `/actuator/metrics/{metric.name}` にGETリクエストしてください。
+メトリクスを取得するには、 `/actuator/metrics/{metric.name}` にGETリクエストしてください。
 
 例: `/actuator/metrics/resilience4j.circuitbreaker.calls`
 

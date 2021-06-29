@@ -4,7 +4,7 @@ resilience4j-micrometerの利用
 
 [トップページに戻る](../index.md)
 
-Resilience4jは、InfluxDBやPrometheusのような最も人気の監視システムをサポートしているMicrometerのためのモジュールを提供します。
+Resilience4jは、InfluxDBやPrometheusのような最も人気の監視システムをサポートしている[Micrometer](https://micrometer.io/)のためのモジュールを提供します。
 
 このモジュールは、実行時に `micrometer-core` が既に提供されていることを期待します。Spring Reactorは透過的依存性ではありません。
 
@@ -39,11 +39,11 @@ TaggedCircuitBreakerMetrics
 
 | メトリクス名 | 型 | タグ | 説明 |
 |------------|---|------|-----|
-| resilience4j.circuitbreaker.calls | Timer | name="backendA" | 成功・失敗した呼び出しの合計回数 |
+| resilience4j.circuitbreaker.calls | Timer | 次のいずれか: <ul><li>kind="failed"</li><li>kind="successful"</li><li>kind="ignored"</li></ul>name="backendA" | 成功・失敗した呼び出しの合計回数 |
 | resilience4j.circuitbreaker.max.buffered.calls | Gauge | name="backendA" | 現在のスライディングウィンドウ内に保存可能なバッファーされた呼び出しの最大数 |
-| resilience4j.circuitbreaker.state | Gauge <br> 0 - Not active <br> 1 - Active | 下記のいずれか1つ: <br>- state="closed"<br>- state="open"<br>- state="half_open"<br>- state="forced_open"<br>- state="disabled"<br>name="backendA" | CircuitBreakerの状態 |
+| resilience4j.circuitbreaker.state | Gauge <ul><li>0 - Not active</li><li>1 - Active</li></ul> | 下記のいずれか1つ: <ul><li>state="closed"</li><li>state="open"</li><li>state="half_open"</li><li>state="forced_open"</li><li>state="disabled"</li></ul>name="backendA" | CircuitBreakerの状態 |
 | resilience4j.circuitbreaker.failure.rate | Gauge |name="backendA" | CircuitBreakerの失敗率 |
-| resilience4j.circuitbreaker.buffered.calls | Gauge | 下記のいずれか1つ: <br>- kind="failed"<br>- kind="successful"<br>name="backendA" | スライディングウィンドウに保存されている、バッファーされた成功・失敗した呼び出しの回数 |
+| resilience4j.circuitbreaker.buffered.calls | Gauge | 下記のいずれか1つ: <ul><li>kind="failed"</li><li>kind="successful"</li></ul>name="backendA" | スライディングウィンドウに保存されている、バッファーされた成功・失敗した呼び出しの回数 |
 | resilience4.circuitbreaker.calls | Counter | kind="not_permitted"<br>name="backendA" | 失敗したが例外が無視された呼び出しの回数 |
 | resilience4j.circuitbreaker.slow.call.rate | Gauge | name="backendA" | CircuitBreakerの遅い呼び出し |
 
@@ -65,7 +65,7 @@ TaggedRetryMetrics
 
 | メトリクス名 | 型 | タグ | 説明 |
 |------------|---|------|-----|
-| resilience4j.retry.calls | Gauge | 下記のいずれか1つ:<br>- kind="successful.without.retry"<br>- kind="successful.with.retry"<br>- kind="failed.with.retry"<br>- kind="failed.without.retry"<br>name="backendA" | kindの呼び出し回数 |
+| resilience4j.retry.calls | Gauge | 下記のいずれか1つ:<ul><li>kind="successful.without.retry"</li><li>kind="successful.with.retry"</li><li>kind="failed.with.retry"</li><li>kind="failed.without.retry"</li></ul>name="backendA" | kindの呼び出し回数 |
 
 # Bulkheadメトリクス
 下記のコードは `MeterRegistry` にBulkheadメトリクスをバインドする方法を示しています。これは全Bulkheadインスタンスを一度にバインドし、新規作成されたインスタンスに動的にバインドするためのイベントコンシューマーを登録します。
@@ -109,6 +109,29 @@ TaggedRateLimiterMetrics
 |------------|---|------|-----|
 | resilience4j.ratelimiter.available.permissions | Gauge | name="backendA" | 利用可能なパーミッション数 |
 | resilience4j.ratelimiter.waiting.threads | Gauge | name="backendA" | 待機中のスレッド数 |
+
+# TimeLimiterメトリクス
+下記のコードは `MeterRegistry` にTimeLimiterメトリクスをバインドする方法を示しています。これは全TimeLimiterインスタンスを一度にバインドし、新規作成されたインスタンスに動的にバインドするためのイベントコンシューマーを登録します。
+
+```java
+MeterRegistry meterRegistry = new SimpleMeterRegistry();
+TimeLimiterRegistry timeLimiterRegistry = TimeLimiterRegistry.ofDefaults();
+TimeLimiter timeLimiter = timeLimiterRegistry
+  .timeLimiter("backendA");
+
+// Register time limiters at once
+TaggedTimeLimiterMetrics
+  .ofTimeLimiterRegistry(timeLimiterRegistry)
+  .bindTo(meterRegistry);
+```
+
+下記のメトリクスがエクスポートされます:
+
+| メトリクス名 | 型 | タグ | 説明 |
+|------------|---|------|-----|
+| resilience4j.timelimiter.calls | Counter | name="backendA"<br>kind="successful" | 成功した呼び出しの合計回数 |
+| resilience4j.timelimiter.calls | Counter | name="backendA"<br>kind="failed" | 失敗した呼び出しの合計回数 |
+| resilience4j.timelimiter.calls | Counter | name="backendA"<br>kind="timeout" | タイムアウトが発生した呼び出しの合計回数 |
 
 # Prometheus
 Prometheusに公開したい場合は、下記の依存性を追加してください:

@@ -256,6 +256,12 @@ EventPublisherをReactive Streamに変換するために、RxJavaまたはRxJava
 # RegistryStoreの上書き
 インメモリのRegistryStoreを独自実装で上書きすることができます。例えば、ある時間が経過した後に利用されていないインスタンスを削除するようなキャッシュを使いたい場合です。
 
+```java
+CircuitBreakerRegistry circuitBreakerRegistry = CircuitBreakerRegistry.custom()
+  .withRegistryStore(new CacheCircuitBreakerRegistryStore())
+  .build();
+```
+
 # リンク
 - [トップページ](../index.md)
 - [CircuitBreakerのサンプルコード](circuitbreaker-examples.md)

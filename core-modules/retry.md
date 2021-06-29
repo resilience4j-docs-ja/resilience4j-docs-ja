@@ -16,6 +16,7 @@ RetryRegistry retryRegistry = RetryRegistry.ofDefaults();
 
 - 最大リトライ回数
 - 試行間の待ち時間
+- 試行回数・結果・例外に基づいて、失敗後の待ち時間を計算するカスタムIntervalBiFunction
 - どのようなレスポンスがリトライをするべきか評価するカスタムPredicate
 - どのような例外がリトライをするべきか評価するカスタムPredicate
 - リトライするべき例外のリスト
@@ -26,10 +27,12 @@ RetryRegistry retryRegistry = RetryRegistry.ofDefaults();
 | maxAttempts | 3 | 最大リトライ回数 |
 | waitDuration | 500 [ms] | 試行間の固定の待ち時間 |
 | intervalFunction | numOfAttempts -> waitDuration | 失敗後の待ち時間間隔を変更する関数。デフォルトでは一定のwaitDuration |
+| intervalBiFunction | (numOfAttempts, Either<throwable, result>) -> waitDuration |試行回数と結果（または例外）に基づいて、失敗後の待ち時間間隔を変更する関数。intervalFunctionと一緒に使った場合はIllegalStareExceptionがスローされる |
 | retryOnResultPredicate | result -> false | リトライされるべき結果か評価するPredicateを設定する。Predicateは、結果がリトライされるべき場合にtrue、そうでなければfalseを返す |
 | retryOnExceptionPredicate | throwable -> true | リトライされるべき例外か評価するPredicateを設定する。Predicateは、例外がリトライされるべき場合にtrue、そうでなければfalseを返す |
 | retryExceptions | empty | 失敗と記録されリトライされるべきエラークラスのリストを設定する |
 | ignoreExceptions | empty | 無視されリトライされないべきエラークラスのリストを設定する |
+| failAfterMaxRetries | false | リトライ回数がmaxAttemptsに達し、かつ結果がまだretryOnResultPredicateに渡されていない場合の、MaxRetriesExceededExceptionのスローを有効化または無効化するboolean
 
 ```java
 RetryConfig config = RetryConfig.custom()

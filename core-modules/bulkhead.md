@@ -10,7 +10,7 @@ Resilience4jは、同時実行数を制御するために使われるバルク�
 - セマフォを利用する `SemaphoreBulkhead`
 - 境界づけられたキューと固定スレッドプールを利用する `FixedThreadPoolBulkhead`
 
-`SemaphoreBulkhead` は様々なスレッドとI/Oモデルで動作します。Hystrixと違うセマフォベースで、"シャドウ"スレッドプールの選択肢を提供しません。スレッドプールのサイズがバルクヘッドの設定と一貫性があるようにすることは、クライアントの責任です。
+`SemaphoreBulkhead` は様々なスレッドとI/Oモデルで動作します。Hystrixとは異なるセマフォベースで、"シャドウ"スレッドプールの選択肢を提供しません。スレッドプールのサイズがバルクヘッドの設定と一貫性があるようにすることは、クライアントの責任です。
 
 # BulkheadRegistryの作成
 CircuitBreakerモジュールと同様に、このモジュールはインメモリーの `BulkheadRegistry` と `ThreadPoolBulkheadRegistry` を提供します。これを利用して、Bulkheadインスタンスの管理（作成および取得）を行うことができます。

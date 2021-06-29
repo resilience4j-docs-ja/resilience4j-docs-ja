@@ -7,7 +7,7 @@ This is **unofficial** Japanese translation of [Resilience4j documentations](htt
 [index.md](index.md)
 
 # 対応しているResilience4jのバージョン
-1.3.0
+1.7.0
 
 翻訳はボランティアで行っているため、将来のバージョンに追従しきれない可能性もあります。最新バージョンに関する情報は、[公式ドキュメント](https://resilience4j.readme.io/)でも必ず確認してください。
 

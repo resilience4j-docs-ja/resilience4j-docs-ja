@@ -5,7 +5,7 @@ resilience4j-cacheの利用
 [トップページに戻る](../index.md)
 
 # キャッシュの作成および設定
-下記の例は、キャッシュ抽象化でラムダ式をデコレートする方法を示しています。キャッシュ抽象化はラムダ式の結果をキャッシュインスタンス（JCache）します。そして、ラムダ式実行の前にキャッシュから前回キャッシュされた結果の取得を試みます。分散キャッシュからのキャッシュ取得に失敗した場合、例外がスローされラムダ式が呼び出されます。
+下記の例は、キャッシュ抽象化でラムダ式をデコレートする方法を示しています。キャッシュ抽象化はラムダ式の結果をキャッシュインスタンス（JCache）に置きます。そして、ラムダ式実行の前にキャッシュから前回キャッシュされた結果の取得を試みます。分散キャッシュからのキャッシュ取得に失敗した場合、例外がスローされラムダ式が呼び出されます。
 
 ```java
 // JCacheをラップしたCacheContextインスタンスを生成する
@@ -48,7 +48,7 @@ List<Book> books = Cache.decorateSupplier(cache, library::getBooks)
     .apply(BOOKS_CACHE_KEY);
 ```
 
-> 並行性の問題があるため、JCacheの参照実装を本番で使うことは非推奨です。Ehcache、Caffeine、Redisson、Hazelcast、Igniteもしくは[他の実装](https://jcp.org/aboutJava/communityprocess/implementations/jsr107/index.html)を使ってください。
+> 並行性の問題があるため、JCacheの参照実装を本番で使うことは非推奨です。Ehcache、Caffeine、Redisson、Hazelcast、Igniteもしくは[他のJCache実装](https://jcp.org/aboutJava/communityprocess/implementations/jsr107/index.html)を使ってください。
 
 # リンク
 - [トップページ](../index.md)

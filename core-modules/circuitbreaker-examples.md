@@ -51,7 +51,7 @@ String result = circuitBreaker
 ```
 
 # 例外からのリカバリー
-CircuitBreakerが例外を失敗と記録しそれからリカバリーしたい場合は、 `Try.recover()` でメソッドをチェインできます。recoveryメソッドは `Try.of()` が `Failure<Throwable>` モナドを返した時のみ実行されます。
+CircuitBreakerが例外を失敗と記録した後にそれからリカバリーしたい場合は、 `Try.recover()` でメソッドをチェインできます。recoveryメソッドは `Try.of()` が `Failure<Throwable>` モナドを返した時のみ実行されます。
 
 ```java
 // 与えられた設定
@@ -123,6 +123,15 @@ circuitBreaker.transitionToClosedState(); // CLOSEDに遷移して通常の振�
 circuitBreaker.transitionToForcedOpenState();
 // circuitBreaker.onSuccess(...) は状態変更を引き起こしません
 circuitBreaker.reset(); // CLOSEDに遷移して通常の振る舞いを再び可能にします。メトリクスは失われます
+```
+
+# RegistryStoreの上書き
+インメモリのRegistryStoreを独自実装で上書きすることができます。例えば、ある時間が経過した後に利用されていないインスタンスを削除するようなキャッシュを使いたい場合です。
+
+```java
+CircuitBreakerRegistry circuitBreakerRegistry = CircuitBreakerRegistry.custom()
+  .withRegistryStore(new CacheCircuitBreakerRegistryStore())
+  .build();
 ```
 
 # リンク

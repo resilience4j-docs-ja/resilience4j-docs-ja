@@ -73,6 +73,7 @@ CircuitBreakerRegistry circuitBreakerRegistry =
 | slowCallRateThreshold | 100 | 閾値をパーセントで設定します。呼び出し時間が `slowCallDurationThreshold` を超えた時、サーキットブレイカーは呼び出しが遅延していると見なします。呼出遅延のパーセンテージが閾値以上になった時、CircuitBreakerはOPENに遷移し短絡回路呼び出しを開始します。 |
 | slowCallDurationThreshold | 60000 [ms] | 呼出が遅延していて呼出遅延率を増やすと見なされる時間を設定します。 |
 | permittedNumberOfCallsInHalfOpenState | 10 | CircuitBreakerがHALF_OPENの時に許可される呼び出し回数を設定します。 |
+| maxWaitDurationInHalfOpenState | 0 | CircuitBreakerがOPENに遷移する前に、HALF_OPEN状態で待つ最大の待ち時間を設定します。値0は、許可された呼び出しが完了するまで、CircuitBreakerはHALF_OPEN状態で無限に待つことを意味します。
 | slidingWindowType | COUNT_BASED | CircuitBreakerがCLOSEDの時に呼び出し結果を記録する際に使われるスライディングウィンドウの種類を設定します。スライディングウィンドウはCOUNT_BASEDまたはTIME_BASEDです。スライディングウィンドウがCOUNT_BASEDの場合、直近の呼び出しが `slidingWindowSize` の数だけ記録および集約されます。スライディングウィンドウがTIME_BASEDの場合、直近の `slidingWindowSize` 秒間の呼び出しが記録および集約されます。 |
 | slidingWindowSize | 100 | CircuitBreakerがCLOSEDの時に呼び出し結果を記録する際に使われるスライディングウィンドウのサイズを設定します。 |
 | minimumNumberOfCalls | 10 | CircuitBreakerがエラー率を計算できるようになる前に必要となる最小呼び出し回数（各スライディングウィンドウごと）を設定します。例えば、minimumNumberOfCallsが10の場合、エラー率が計算できるようになるまでに少なくとも10個の呼び出しが記録されてなければなりません。もし9個の呼び出ししか記録されていない場合、全呼び出しが失敗してもCircuitBreakerはOPENに遷移しません。 |
@@ -153,6 +154,43 @@ CircuitBreaker customCircuitBreaker = CircuitBreaker
   .of("testName", circuitBreakerConfig);
 ```
 
+あるいは、ビルダーメソッドを使ってCircuitBreakerRegistryを作ることもできます。
+
+```java
+Map <String, String> circuitBreakerTags = Map.of("key1", "value1", "key2", "value2");
+
+CircuitBreakerRegistry circuitBreakerRegistry = CircuitBreakerRegistry.custom()
+    .withCircuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
+    .addRegistryEventConsumer(new RegistryEventConsumer() {
+        @Override
+        public void onEntryAddedEvent(EntryAddedEvent entryAddedEvent) {
+            // implementation
+        }
+        @Override
+        public void onEntryRemovedEvent(EntryRemovedEvent entryRemoveEvent) {
+            // implementation
+        }
+        @Override
+        public void onEntryReplacedEvent(EntryReplacedEvent entryReplacedEvent) {
+            // implementation
+        }
+    })
+    .withTags(circuitBreakerTags)
+    .build();
+
+CircuitBreaker circuitBreaker = circuitBreakerRegistry.circuitBreaker("testName");
+```
+
+Registryの独自実装を差し込みたい場合は、RegistryStoreインタフェースの実装を作成してビルダーメソッドで差し込むことができます。
+
+```java
+CircuitBreakerRegistry registry = CircuitBreakerRegistry.custom()
+    .withRegistryStore(new YourRegistryStoreImplementation())
+    .withCircuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
+    .build();
+```
+
+
 # 関数型インタフェースのデコレートと実行
 CircuitBreakerでデコレートできるのは `Callable` 、 `Supplier` 、 `Runnable` 、 `Consumer` 、 `CheckedRunnable` 、 `CheckedSupplier` 、 `CheckedConsumer` 、 `CompletionStage` です。デコレートされた関数は、Vavrの `Try.of(...)` または `Try.run(...)` で実行できます。これによりmap、flatMap、filter、recover、andThenでさらなる関数をチェインすることを可能にします。チェインされた関数はCircuitBreakerがCLOSEDまたはHALF_OPENの時のみ実行できます。下記の例では、関数実行が成功した場合は `Try.of(...)` が `Success<String>` モナドを返します。関数が例外をスローした場合 `Failure<Throwable>` モナドが返され、mapは実行されません。
 
@@ -190,7 +228,7 @@ circuitBreakerRegistry.getEventPublisher()
 ```
 
 # 発行されたCircuitBreakerEventsの消費
-CircuitBreakerEventは状態遷移、サーキットブレイカーのリセット、成功した呼び出し、記録されたエラー、無視されたエラーです。全てのイベントは、イベント作成日時や呼び出しの処理時間などの追加情報を含んでいます。イベントを消費したい場合は、イベントコンシューマーを登録する必要があります。
+CircuitBreakerEventとは状態遷移、サーキットブレイカーのリセット、成功した呼び出し、記録されたエラー、無視されたエラーです。全てのイベントは、イベント作成日時や呼び出しの処理時間などの追加情報を含んでいます。イベントを消費したい場合は、イベントコンシューマーを登録する必要があります。
 
 ```java
 circuitBreaker.getEventPublisher()
@@ -204,7 +242,7 @@ circuitBreaker.getEventPublisher()
     .onEvent(event -> logger.info(...));
 ```
 
-固定キャパシティの循環バッファーにイベントを保存するCircularEventConsumerを使うこともできます。
+固定長の循環バッファーにイベントを保存するCircularEventConsumerを使うこともできます。
 
 ```java
 CircularEventConsumer<CircuitBreakerEvent> ringBuffer = 
@@ -214,6 +252,9 @@ List<CircuitBreakerEvent> bufferedEvents = ringBuffer.getBufferedEvents()
 ```
 
 EventPublisherをReactive Streamに変換するために、RxJavaまたはRxJava2アダプターを利用できます。
+
+# RegistryStoreの上書き
+インメモリのRegistryStoreを独自実装で上書きすることができます。例えば、ある時間が経過した後に利用されていないインスタンスを削除するようなキャッシュを使いたい場合です。
 
 # リンク
 - [トップページ](../index.md)
